@@ -36,4 +36,6 @@ public class Tenant extends BaseEntity {
 
 	@Column(nullable = false)
 	private String gender;
+	
+	
 }
