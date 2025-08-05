@@ -11,10 +11,16 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import jakarta.persistence.Id;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
+@ToString(exclude = {"x1","x2"} )
 public abstract class BaseEntity {
 
 	@Id
