@@ -1,4 +1,4 @@
-package com.easypg.entities;
+package com.easypg.enums;
 
 public enum From {
     ADMIN,

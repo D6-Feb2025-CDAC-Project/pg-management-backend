@@ -1,5 +1,8 @@
 package com.easypg.entities;
 
+import com.easypg.enums.From;
+import com.easypg.enums.PriorityLevel;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

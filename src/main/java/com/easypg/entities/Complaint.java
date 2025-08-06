@@ -2,8 +2,8 @@ package com.easypg.entities;
 
 import java.time.LocalDateTime;
 
-import com.easypg.entities.ComplaintStatus;
-import com.easypg.entities.PriorityLevel;
+import com.easypg.enums.ComplaintStatus;
+import com.easypg.enums.PriorityLevel;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
