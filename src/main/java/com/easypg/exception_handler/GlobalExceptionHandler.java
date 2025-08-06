@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.easypg.custom_exceptions.ApiException;
+import com.easypg.custom_exceptions.DuplicateRecordFoundException;
 import com.easypg.custom_exceptions.InvalidInputException;
 import com.easypg.custom_exceptions.ResourceNotFoundException;
 import com.easypg.dto.ApiResponse;
@@ -30,6 +31,11 @@ public class GlobalExceptionHandler {
 		@ExceptionHandler(InvalidInputException.class)
 		public ResponseEntity<?> handleInvalidInput(InvalidInputException e) {
 		    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ApiResponse(e.getMessage()));
+		}
+		
+		@ExceptionHandler(DuplicateRecordFoundException.class)
+		public ResponseEntity<?> handleDupllicateRecords(DuplicateRecordFoundException e){
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(e.getMessage()));
 		}
 
 		
