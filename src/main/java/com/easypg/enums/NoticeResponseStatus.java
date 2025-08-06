@@ -1,8 +1,9 @@
 package com.easypg.enums;
 
 public enum NoticeResponseStatus {
+	PENDING_REVIEW,
 	UNDER_REVIEW,
-	APPROVED,
 	REJECTED,
-	PENDING
+	APPROVED,
+	PAYMENT_PROCESSING,
 }
