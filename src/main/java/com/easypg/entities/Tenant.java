@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,9 +15,8 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = { "user", "room" })
-@AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude= {"user","room", "tenant"})
 public class Tenant extends BaseEntity {
 	@OneToOne
 	@MapsId
@@ -26,7 +24,8 @@ public class Tenant extends BaseEntity {
 	private User user;
 
 	@OneToOne
-	@JoinColumn(name = "room_id")
+	@JoinColumn(name="room_id")
+
 	private Room room;
 
 	@Column(name = "move_in_date", nullable = false)
@@ -37,5 +36,8 @@ public class Tenant extends BaseEntity {
 
 	@Column(nullable = false)
 	private String gender;
-
+	
+	@OneToOne(mappedBy = "tenant")
+	private LeaveNotice leaveNotice;
+	
 }

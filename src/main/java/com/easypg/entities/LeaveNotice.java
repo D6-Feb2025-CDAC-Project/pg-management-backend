@@ -40,6 +40,10 @@ public class LeaveNotice extends BaseEntity{
 	private String reviewNotes;
 	
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tenant_id") // FK column in leave_notice table
+	private Tenant tenant;
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "settlement_id") // FK column in leave_notice table
 	private Settlement settlement;
 	
