@@ -13,6 +13,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -20,7 +21,7 @@ import lombok.ToString;
 @Table(name = "rooms")
 @Getter
 @Setter
-
+@NoArgsConstructor
 @ToString(exclude = "facilities")
 public class Room extends BaseEntity {
 	
@@ -69,5 +70,26 @@ public class Room extends BaseEntity {
 
 	    @Column(name = "photo_url")
 	    private String photoUrl;
+	    
+	 // AllArgsConstructor manually excluding facilities and calling super()
+	    public Room(String roomNo, RoomType roomType, String floor, double size, double rentAmount,
+	                int currentOccupancy, int maxOccupancy, boolean isAvailable, double maintenanceCharges,
+	                double electricityCharges, double deposit, TenantType tenantType, String photoUrl) {
+	        super(); // Calls BaseEntity constructor 
+	        this.roomNo = roomNo;
+	        this.roomType = roomType;
+	        this.floor = floor;
+	        this.size = size;
+	        this.rentAmount = rentAmount;
+	        this.currentOccupancy = currentOccupancy;
+	        this.maxOccupancy = maxOccupancy;
+	        this.isAvailable = isAvailable;
+	        this.maintenanceCharges = maintenanceCharges;
+	        this.electricityCharges = electricityCharges;
+	        this.deposit = deposit;
+	        this.tenantType = tenantType;
+	        this.photoUrl = photoUrl;
+	    }
+
 
 }
