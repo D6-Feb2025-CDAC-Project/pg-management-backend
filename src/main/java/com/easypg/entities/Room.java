@@ -65,7 +65,7 @@ public class Room extends BaseEntity {
 	    private boolean hidden = false;  
          
 	    @JsonManagedReference
-	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	    private List<Facility> facilities;
 	    
 	    @Enumerated(EnumType.STRING)
