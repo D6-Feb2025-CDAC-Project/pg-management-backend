@@ -1,6 +1,7 @@
 package com.easypg.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,11 +9,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.easypg.dto.AddNoticeBoardDTO;
@@ -27,7 +30,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/notices")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")  // Updated CORS origin
 @AllArgsConstructor
 @Validated
 public class NoticeBoardController {
@@ -114,39 +117,13 @@ public class NoticeBoardController {
 		return ResponseEntity.ok(noticeBoardService.updateNoticeDetails(noticeId, dto));
 	}
 
-	/*
-	 * REST API end point - 
-	 * desc - get notices by priority level
-	 * URL - http://host:port/notices/priority/{priorityLevel} 
-	 * Method - GET 
-	 * Payload - none
-	 * Resp - List of notices with specific priority
-	 */
-	@GetMapping("/priority/{priorityLevel}")
-	@Operation(description = "Get notices by priority level")
-	public ResponseEntity<?> getNoticesByPriority(@PathVariable String priorityLevel) {
-		System.out.println("in get notices by priority " + priorityLevel);
-		List<NoticeBoardRespDTO> notices = noticeBoardService.getNoticesByPriority(priorityLevel);
-		if (notices.isEmpty())
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		return ResponseEntity.ok(notices);
-	}
 
-	/*
-	 * REST API end point - 
-	 * desc - get notices by from (ADMIN/OWNER/HOUSEKEEPING)
-	 * URL - http://host:port/notices/from/{from} 
-	 * Method - GET 
-	 * Payload - none
-	 * Resp - List of notices from specific source
-	 */
-	@GetMapping("/from/{from}")
-	@Operation(description = "Get notices by source")
-	public ResponseEntity<?> getNoticesByFrom(@PathVariable String from) {
-		System.out.println("in get notices by from " + from);
-		List<NoticeBoardRespDTO> notices = noticeBoardService.getNoticesByFrom(from);
-		if (notices.isEmpty())
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		return ResponseEntity.ok(notices);
-	}
+
+	
+	
+	
+
+
+	
+
 }
