@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import com.easypg.dao.TenantDao;
 import com.easypg.dao.UserDao;
 import com.easypg.dto.AddTenantDTO;
 import com.easypg.dto.ApiResponse;
+import com.easypg.dto.LoginResponseDTO;
 import com.easypg.dto.TenantResponseDTO;
 import com.easypg.dto.UpdateTenantDTO;
 import com.easypg.entities.Complaint;
@@ -87,7 +89,7 @@ public class TenantServiceImpl implements TenantService{
 
         Period period = Period.between(tenant.getMoveInDate(), LocalDate.now());
         int tenureInMonths = period.getYears() * 12 + period.getMonths();
-
+        dto.setEmail(tenant.getUser().getEmail());
         dto.setUsername(tenant.getUser().getUsername());
         dto.setRoomNumber(room.getRoomNo());
         dto.setRoomType(room.getRoomType().toString());
@@ -146,6 +148,24 @@ public class TenantServiceImpl implements TenantService{
 
 	    return new ApiResponse("Tenant soft deleted successfully with ID: " + tenantId);
 	}
+
+
+	@Override
+	public LoginResponseDTO authenticateUser(String identifier, String password) {
+        Optional<User> optionalUser = userDao.findByUsernameOrEmail(identifier, password);
+
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        User user = optionalUser.get();
+
+        if (!user.getPassword().equals(password)) {
+            throw new IllegalArgumentException("Incorrect password");
+        }
+
+        return new LoginResponseDTO(user.getUsername());
+    }
 
 	
 }
