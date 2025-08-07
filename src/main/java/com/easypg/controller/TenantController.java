@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.easypg.dto.AddTenantDTO;
 import com.easypg.dto.ApiResponse;
+import com.easypg.dto.LoginRequestDTO;
+import com.easypg.dto.LoginResponseDTO;
 import com.easypg.dto.TenantResponseDTO;
 import com.easypg.dto.UpdateTenantDTO;
 import com.easypg.service.TenantService;
@@ -26,7 +28,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/tenant")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 @Validated
 public class TenantController {
@@ -36,7 +38,7 @@ public class TenantController {
 	/*
 	 * Request handling method (REST API end point) 
 	 * - desc - Add new tenant
-	 * URL -http://host:port/user
+	 * URL -http://host:port/tenant
 	 * Method - POST 
 	 * Payload -JSON representation of tenant
 	 * Resp - in case failure (dup email Id) - ApiResp DTO
@@ -52,7 +54,7 @@ public class TenantController {
 
 	/*
 	 * Request handling method (REST API end point) URL -
-	 * http://host:port/user 
+	 * http://host:port/tenant 
 	 * Method - GET 
 	 * Payload - none 
 	 * Resp - in case of empty list - SC204 (NO_CONTENT) 
@@ -71,7 +73,7 @@ public class TenantController {
 	
 	/*
 	 * Request handling method (REST API end point) URL -
-	 * http://host:port/user/{tenantId} 
+	 * http://host:port/tenant/{tenantId} 
 	 * Method - PATCH
 	 * Payload - Json representation of user 
 	 * Resp - ApiResponse
@@ -86,7 +88,7 @@ public class TenantController {
 	
 	/*
 	 * Request handling method (REST API end point) URL -
-	 * http://host:port/user/{tenantId} 
+	 * http://host:port/tenant/{tenantId} 
 	 * Method - DELETE
 	 * Payload - none
 	 * Resp - ApiResponse
@@ -96,4 +98,21 @@ public class TenantController {
         ApiResponse response = tenantService.deleteTenant(tenantId);
         return ResponseEntity.ok(response);
     }
+	
+	/*
+	 * Request handling method (REST API end point) URL -
+	 * http://host:port/tenant/login
+	 * Method - POST
+	 * Payload - LoginRequestDTO
+	 * Resp - ApiResponse
+	 */
+	 @PostMapping("/login")
+	    public ResponseEntity<?> login(@RequestBody LoginRequestDTO request) {
+	        try {
+	            LoginResponseDTO response = tenantService.authenticateUser(request.getIdentifier(), request.getPassword());
+	            return ResponseEntity.ok(response);
+	        } catch (IllegalArgumentException e) {
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	        }
+	    }
 }
