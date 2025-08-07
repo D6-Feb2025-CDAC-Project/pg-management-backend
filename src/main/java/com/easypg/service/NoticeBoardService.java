@@ -34,15 +34,6 @@ public interface NoticeBoardService {
     ApiResponse updateNoticeDetails(Long noticeId, AddNoticeBoardDTO dto);
     
    
-    
-  
-
-  
-    
-   
-    
-  
-    
   
     
 }
