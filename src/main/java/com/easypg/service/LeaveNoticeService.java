@@ -12,5 +12,5 @@ public interface LeaveNoticeService {
 	LeaveNoticeResponseTenantDTO getLeaveNoticeForCurrentTenant(Long tenantId);
 	ApiResponse cancelLeaveNoticeForCurrentTenant(Long tenantId);
 	
-//	List<LeaveNoticeResponseAdminDTO> getLeaveNotices();
+	List<LeaveNoticeResponseAdminDTO> getLeaveNotices();
 }

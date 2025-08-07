@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude= {"user","room", "tenant"})
+@ToString(exclude= {"user","room","leaveNotice"})
 public class Tenant extends BaseEntity {
 	@OneToOne
 	@MapsId
@@ -25,7 +25,6 @@ public class Tenant extends BaseEntity {
 
 	@OneToOne
 	@JoinColumn(name="room_id")
-
 	private Room room;
 
 	@Column(name = "move_in_date", nullable = false)
