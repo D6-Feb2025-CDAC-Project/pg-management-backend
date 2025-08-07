@@ -11,7 +11,7 @@ import com.easypg.custom_exceptions.InvalidInputException;
 import com.easypg.custom_exceptions.ResourceNotFoundException;
 import com.easypg.custom_exceptions.UnauthorizedAccessException;
 import com.easypg.dao.ComplaintDao;
-//import com.easypg.dao.TenantDao;
+import com.easypg.dao.TenantDao;
 import com.easypg.dto.AddComplaintDTO;
 import com.easypg.dto.ApiResponse;
 import com.easypg.dto.ComplaintRespDTO;
@@ -29,13 +29,13 @@ import lombok.AllArgsConstructor;
 public class TenantComplaintServiceImpl implements TenantComplaintService {
     
     private final ComplaintDao complaintDao;
-    //private final TenantDao tenantDao;
+    private final TenantDao tenantDao;
 
     @Override
     public ApiResponse addNewComplaint(Long tenantId, AddComplaintDTO dto) {
         // Validate tenant exists and is active
-//        Tenant tenant = tenantDao.findByIdAndIsDeletedFalse(tenantId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Tenant not found with ID: " + tenantId));
+        Tenant tenant = tenantDao.findByIdAndIsDeletedFalse(tenantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Tenant not found with ID: " + tenantId));
         
         // Check for duplicate complaint title for the same tenant (business rule)
         if (complaintDao.existsByTitleAndTenantIdAndIsDeletedFalse(dto.getTitle(), tenantId)) {
@@ -47,7 +47,7 @@ public class TenantComplaintServiceImpl implements TenantComplaintService {
         complaint.setTitle(dto.getTitle());
         complaint.setIssue(dto.getIssue());
         complaint.setPriorityLevel(dto.getPriorityLevel());
-        //complaint.setTenant(tenant);
+        complaint.setTenant(tenant);
         complaint.setComplaintStatus(ComplaintStatus.PENDING); // Always starts as PENDING
         complaint.setDeleted(false);
         
@@ -61,7 +61,7 @@ public class TenantComplaintServiceImpl implements TenantComplaintService {
     @Override
     public List<ComplaintRespDTO> getMyComplaints(Long tenantId) {
         // Validate tenant exists
-       // validateTenantExists(tenantId);
+        validateTenantExists(tenantId);
         
         return complaintDao.findByTenantIdAndIsDeletedFalseOrderByCreatedAtDesc(tenantId)
                 .stream()
@@ -72,7 +72,7 @@ public class TenantComplaintServiceImpl implements TenantComplaintService {
     @Override
     public ComplaintRespDTO getMyComplaintDetails(Long tenantId, Long complaintId) {
         // Validate tenant exists
-      //  validateTenantExists(tenantId);
+       validateTenantExists(tenantId);
         
         Complaint complaint = complaintDao.findByIdAndIsDeletedFalse(complaintId)
                 .orElseThrow(() -> new ResourceNotFoundException("Complaint not found with ID: " + complaintId));
@@ -88,7 +88,7 @@ public class TenantComplaintServiceImpl implements TenantComplaintService {
     @Override
     public List<ComplaintRespDTO> getMyComplaintsByStatus(Long tenantId, String status) {
         // Validate tenant exists
-      //  validateTenantExists(tenantId);
+       validateTenantExists(tenantId);
         
         try {
             ComplaintStatus complaintStatus = ComplaintStatus.valueOf(status.toUpperCase());
@@ -105,7 +105,7 @@ public class TenantComplaintServiceImpl implements TenantComplaintService {
     @Override
     public List<ComplaintRespDTO> getMyComplaintsByPriority(Long tenantId, String priority) {
         // Validate tenant exists
-       // validateTenantExists(tenantId);
+        validateTenantExists(tenantId);
         
         try {
             PriorityLevel priorityLevel = PriorityLevel.valueOf(priority.toUpperCase());
@@ -122,7 +122,7 @@ public class TenantComplaintServiceImpl implements TenantComplaintService {
     @Override
     public ComplaintStatsDTO getMyComplaintStats(Long tenantId) {
         // Validate tenant exists
-       // validateTenantExists(tenantId);
+        validateTenantExists(tenantId);
         
         // Get all complaints for this tenant
         List<Complaint> myComplaints = complaintDao.findByTenantIdAndIsDeletedFalseOrderByCreatedAtDesc(tenantId);
@@ -158,7 +158,7 @@ public class TenantComplaintServiceImpl implements TenantComplaintService {
     @Override
     public Map<String, Object> checkMyComplaintStatus(Long tenantId, Long complaintId) {
         // Validate tenant exists
-       // validateTenantExists(tenantId);
+         validateTenantExists(tenantId);
         
         Complaint complaint = complaintDao.findByIdAndIsDeletedFalse(complaintId)
                 .orElseThrow(() -> new ResourceNotFoundException("Complaint not found with ID: " + complaintId));
@@ -209,12 +209,12 @@ public class TenantComplaintServiceImpl implements TenantComplaintService {
     }
     
     // Helper methods
-//    private void validateTenantExists(Long tenantId) {
-//        if (!tenantDao.existsByIdAndIsDeletedFalse(tenantId)) {
-//            throw new ResourceNotFoundException("Tenant not found with ID: " + tenantId);
-//        }
-//    }
-//    
+    private void validateTenantExists(Long tenantId) {
+        if (!tenantDao.existsByIdAndIsDeletedFalse(tenantId)) {
+            throw new ResourceNotFoundException("Tenant not found with ID: " + tenantId);
+        }
+    }
+    
     private String getStatusDescription(ComplaintStatus status) {
         return switch (status) {
             case PENDING -> "Your complaint has been received and is waiting for review.";

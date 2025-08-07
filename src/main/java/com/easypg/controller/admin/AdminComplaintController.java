@@ -85,13 +85,13 @@ public class AdminComplaintController {
      * URL - http://host:port/admin/complaints/{complaintId}/action
      * Method - PUT
      */
-    @PutMapping("/{complaintId}/action")
-    @Operation(description = "Add/Update action taken for complaint (Admin only)")
-    public ResponseEntity<?> updateComplaintAction(@PathVariable @Min(1) Long complaintId,
-            @RequestBody @Valid UpdateComplaintActionDTO dto) {
-        System.out.println("Admin: adding action for complaint " + complaintId);
-        return ResponseEntity.ok(adminComplaintService.updateComplaintAction(complaintId, dto));
-    }
+//    @PutMapping("/{complaintId}/action")
+//    @Operation(description = "Add/Update action taken for complaint (Admin only)")
+//    public ResponseEntity<?> updateComplaintAction(@PathVariable @Min(1) Long complaintId,
+//            @RequestBody @Valid UpdateComplaintActionDTO dto) {
+//        System.out.println("Admin: adding action for complaint " + complaintId);
+//        return ResponseEntity.ok(adminComplaintService.updateComplaintAction(complaintId, dto));
+//    }
 
     /*
      * UPDATE COMPLAINT PRIORITY - Admin can change priority level
@@ -185,12 +185,12 @@ public class AdminComplaintController {
     @Operation(description = "Filter complaints with multiple criteria (Admin only)")
     public ResponseEntity<?> filterComplaints(
             @RequestParam(required = false) String status,
-            @RequestParam(required = false) String priority,
-            @RequestParam(required = false) Long tenantId) {
+            @RequestParam(required = false) String priority
+          ) {
         System.out.println("Admin: filtering complaints - status:" + status + 
-                          ", priority:" + priority + ", tenantId:" + tenantId);
+                          ", priority:" + priority );
         
-        List<ComplaintRespDTO> complaints = adminComplaintService.filterComplaints(status, priority, tenantId);
+        List<ComplaintRespDTO> complaints = adminComplaintService.filterComplaints(status, priority);
         
         if (complaints.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

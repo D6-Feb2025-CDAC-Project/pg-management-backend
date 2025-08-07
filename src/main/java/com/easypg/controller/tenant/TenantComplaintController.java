@@ -43,14 +43,14 @@ public class TenantComplaintController {
      * Payload - JSON representation of complaint (without tenantId)
      * Resp - success - SC 201 + ApiResp - success mesg
      */
-    @PostMapping("/{tenantId}")
-    @Operation(description = "Submit new complaint (Tenant)")
-    public ResponseEntity<?> submitComplaint(@PathVariable @Min(1) Long tenantId,
-            @RequestBody @Valid AddComplaintDTO dto) {
-        System.out.println("Tenant " + tenantId + ": submitting complaint " + dto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(tenantComplaintService.addNewComplaint(tenantId, dto));
-    }
+//    @PostMapping("/{tenantId}")
+//    @Operation(description = "Submit new complaint (Tenant)")
+//    public ResponseEntity<?> submitComplaint(@PathVariable @Min(1) Long tenantId,
+//            @RequestBody @Valid AddComplaintDTO dto) {
+//        System.out.println("Tenant " + tenantId + ": submitting complaint " + dto);
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .body(tenantComplaintService.addNewComplaint(tenantId, dto));
+//    }
 
     /*
      * SUBMIT COMPLAINT (AUTHENTICATED) - For when JWT auth is implemented

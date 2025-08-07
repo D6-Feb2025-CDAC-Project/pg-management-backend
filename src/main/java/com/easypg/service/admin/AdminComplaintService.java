@@ -26,7 +26,7 @@ public interface AdminComplaintService {
     List<ComplaintRespDTO> getComplaintsByTenant(Long tenantId);
     
     // Advanced filtering
-    List<ComplaintRespDTO> filterComplaints(String status, String priority, Long tenantId);
+    List<ComplaintRespDTO> filterComplaints(String status, String priority);
     
     // Statistics - Global stats for admin dashboard
     ComplaintStatsDTO getComplaintStats();

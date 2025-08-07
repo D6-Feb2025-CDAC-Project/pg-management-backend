@@ -139,7 +139,7 @@ public class AdminComplaintServiceImpl implements AdminComplaintService {
     }
 
     @Override
-    public List<ComplaintRespDTO> filterComplaints(String status, String priority, Long tenantId) {
+    public List<ComplaintRespDTO> filterComplaints(String status, String priority) {
         ComplaintStatus complaintStatus = null;
         PriorityLevel priorityLevel = null;
         
@@ -161,7 +161,7 @@ public class AdminComplaintServiceImpl implements AdminComplaintService {
             }
         }
         
-        return complaintDao.findComplaintsWithFilters(complaintStatus, priorityLevel, tenantId)
+        return complaintDao.findComplaintsWithFilters(complaintStatus, priorityLevel)
                 .stream()
                 .map(this::mapToAdminComplaintRespDTO)
                 .toList();

@@ -63,12 +63,15 @@ public interface ComplaintDao extends JpaRepository<Complaint, Long> {
     @Query("SELECT c FROM Complaint c JOIN FETCH c.tenant t WHERE " +
            "(:status IS NULL OR c.complaintStatus = :status) AND " +
            "(:priority IS NULL OR c.priorityLevel = :priority) AND " +
-           "(:tenantId IS NULL OR c.tenant.id = :tenantId) AND " +
+//           "(:tenantId IS NULL OR c.tenant.id = :tenantId) AND " +
            "c.isDeleted = false ORDER BY c.createdAt DESC")
     List<Complaint> findComplaintsWithFilters(@Param("status") ComplaintStatus status,
-                                            @Param("priority") PriorityLevel priority,
-                                            @Param("tenantId") Long tenantId);
+                                            @Param("priority") PriorityLevel priority
+//                                            @Param("tenantId") Long tenantId
+                                            );
     
     // Check if complaint with same title exists for tenant (to avoid duplicates)
     boolean existsByTitleAndTenantIdAndIsDeletedFalse(String title, Long tenantId);
+
+	List<Complaint> findByTenantId(Long id);
 }
