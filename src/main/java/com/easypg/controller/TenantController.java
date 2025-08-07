@@ -28,7 +28,6 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/tenant")
-@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 @Validated
 public class TenantController {

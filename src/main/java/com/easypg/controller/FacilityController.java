@@ -20,7 +20,6 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/facility")
-@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 @Validated
 public class FacilityController {
