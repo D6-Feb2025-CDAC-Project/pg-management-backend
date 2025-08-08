@@ -25,8 +25,6 @@ import lombok.ToString;
 @ToString(exclude = "facilities")
 public class Room extends BaseEntity {
 	
-	
-
 	    @Column(name = "room_no", nullable = false, unique = true)
 	    private String roomNo;
          

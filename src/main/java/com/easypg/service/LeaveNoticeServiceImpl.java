@@ -50,11 +50,9 @@ public class LeaveNoticeServiceImpl implements LeaveNoticeService{
 	@Override
 	public ApiResponse cancelLeaveNoticeForCurrentTenant(Long tenantId) {
 		Tenant tenant = tenantDao.findById(tenantId).orElseThrow(()-> new ResourceNotFoundException("Tenant with given id not found"));
-		LeaveNotice leaveNotice = tenant.getLeaveNotice();
-		if(leaveNotice != null) leaveNotice.setDeleted(true);
-		else throw new ApiException("No Request to be cancelled");
-		tenant.setLeaveNotice(null);
-		return new ApiResponse("");
+		LeaveNotice leaveNotice = leaveNoticeDao.findByTenantIdAndIsDeletedFalse(tenantId).orElseThrow(()-> new ApiException("No Request to be cancelled"));
+		leaveNotice.setDeleted(true);
+		return new ApiResponse("Leave Notice Cancelled successfully");
 	}
 
 	@Override
