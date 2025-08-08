@@ -15,6 +15,6 @@ import lombok.ToString;
 @ToString
 public class UpdateComplaintStatusDTO {
     
-    @NotNull(message = "Status is required")
-    private ComplaintStatus status;
+    @NotNull(message = "Complaint status is required")
+    private ComplaintStatus complaintStatus;
 }

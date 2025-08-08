@@ -13,16 +13,19 @@ import lombok.ToString;
 @ToString
 public class ComplaintStatsDTO {
     
-    private long totalComplaints;
-    private long pendingComplaints;
-    private long inProgressComplaints;
-    private long resolvedComplaints;
+    // Overall statistics
+    private Long totalComplaints;
     
-    // Priority-wise stats
-    private long highPriorityComplaints;
-    private long moderatePriorityComplaints;
-    private long lowPriorityComplaints;
-    private long urgentPriorityComplaints;
-    private long importantPriorityComplaints;
-    private long generalPriorityComplaints;
+    // Status-wise counts
+    private Long pendingCount;
+    private Long inProgressCount;
+    private Long resolvedCount;
+    
+    // Priority-wise counts
+    private Long highPriorityCount;
+    private Long urgentPriorityCount;
+    private Long moderatePriorityCount;
+    private Long lowPriorityCount;
+    private Long generalPriorityCount;
+    private Long importantPriorityCount;
 }

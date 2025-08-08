@@ -29,7 +29,6 @@ public class ComplaintRespDTO {
     // Tenant information
     private Long tenantId;
     private String tenantName;
-    private String tenantEmail;
     private String tenantContactNumber;
     private String tenantGender;
 }

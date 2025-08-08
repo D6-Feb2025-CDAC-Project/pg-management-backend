@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class UpdateComplaintActionDTO {
     
-    @NotBlank(message = "Action taken description is required")
+    @NotBlank(message = "Action taken is required")
     @Size(max = 1000, message = "Action taken cannot exceed 1000 characters")
     private String actionTaken;
 }

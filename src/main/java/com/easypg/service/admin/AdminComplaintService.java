@@ -6,31 +6,77 @@ import com.easypg.dto.ComplaintStatsDTO;
 import com.easypg.dto.UpdateComplaintActionDTO;
 import com.easypg.dto.UpdateComplaintPriorityDTO;
 import com.easypg.dto.UpdateComplaintStatusDTO;
-import com.easypg.dto.ApiResponse;
 
 public interface AdminComplaintService {
-    
-    // View operations - Admin can see all complaints
+
+    /**
+     * Get all complaints (Admin only)
+     * @return List of all complaints with tenant details
+     */
     List<ComplaintRespDTO> getAllComplaints();
+
+    /**
+     * Get complaint details by ID
+     * @param complaintId - ID of the complaint
+     * @return Complaint details
+     */
     ComplaintRespDTO getComplaintDetails(Long complaintId);
-    
-    // Management operations - Admin exclusive
-    ApiResponse updateComplaintStatus(Long complaintId, UpdateComplaintStatusDTO dto);
-    ApiResponse updateComplaintAction(Long complaintId, UpdateComplaintActionDTO dto);
-    ApiResponse updateComplaintPriority(Long complaintId, UpdateComplaintPriorityDTO dto);
-    ApiResponse deleteComplaint(Long complaintId);
-    
-    // Filter operations - Admin can filter all complaints
+
+    /**
+     * Update complaint status
+     * @param complaintId - ID of the complaint
+     * @param dto - Status update details
+     * @return Updated complaint details
+     */
+    ComplaintRespDTO updateComplaintStatus(Long complaintId, UpdateComplaintStatusDTO dto);
+
+    /**
+     * Update complaint priority
+     * @param complaintId - ID of the complaint
+     * @param dto - Priority update details
+     * @return Updated complaint details
+     */
+    ComplaintRespDTO updateComplaintPriority(Long complaintId, UpdateComplaintPriorityDTO dto);
+
+    /**
+     * Add/Update action taken for complaint
+     * @param complaintId - ID of the complaint
+     * @param dto - Action details
+     * @return Updated complaint details
+     */
+    ComplaintRespDTO updateComplaintAction(Long complaintId, UpdateComplaintActionDTO dto);
+
+    /**
+     * Get complaints by status
+     * @param status - Status to filter by
+     * @return List of complaints with specified status
+     */
     List<ComplaintRespDTO> getComplaintsByStatus(String status);
+
+    /**
+     * Get complaints by priority
+     * @param priority - Priority level to filter by
+     * @return List of complaints with specified priority
+     */
     List<ComplaintRespDTO> getComplaintsByPriority(String priority);
-    List<ComplaintRespDTO> getComplaintsByTenant(Long tenantId);
-    
-    // Advanced filtering
-    List<ComplaintRespDTO> filterComplaints(String status, String priority);
-    
-    // Statistics - Global stats for admin dashboard
+
+    /**
+     * Get complaint statistics for admin dashboard
+     * @return Statistics DTO with counts by status and priority
+     */
     ComplaintStatsDTO getComplaintStats();
-    
-    // Bulk operations (Admin only)
-    ApiResponse bulkUpdateStatus(List<Long> complaintIds, String status);
+
+    /**
+     * Filter complaints with multiple criteria
+     * @param status - Optional status filter
+     * @param priority - Optional priority filter
+     * @return Filtered list of complaints
+     */
+    List<ComplaintRespDTO> filterComplaints(String status, String priority);
+
+    /**
+     * Delete complaint (soft delete)
+     * @param complaintId - ID of the complaint to delete
+     */
+    void deleteComplaint(Long complaintId);
 }

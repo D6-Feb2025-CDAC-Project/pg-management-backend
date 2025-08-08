@@ -1,32 +1,52 @@
 package com.easypg.service.tenant;
 
 import java.util.List;
-import java.util.Map;
-
 import com.easypg.dto.AddComplaintDTO;
-import com.easypg.dto.ApiResponse;
 import com.easypg.dto.ComplaintRespDTO;
-import com.easypg.dto.ComplaintStatsDTO;
 
+/**
+ * Service interface for tenant complaint management operations
+ */
 public interface TenantComplaintService {
-    
-    // Complaint submission - Tenant can create new complaints
-    ApiResponse addNewComplaint(Long tenantId, AddComplaintDTO dto);
-    
-    // View operations - Tenant can only see their own complaints
+
+    /**
+     * Add new complaint for a tenant
+     * @param tenantId - ID of the tenant raising the complaint
+     * @param dto - Complaint details
+     * @return Created complaint details
+     */
+    ComplaintRespDTO addNewComplaint(Long tenantId, AddComplaintDTO dto);
+
+    /**
+     * Get all complaints for a specific tenant
+     * @param tenantId - ID of the tenant
+     * @return List of complaints belonging to the tenant
+     */
     List<ComplaintRespDTO> getMyComplaints(Long tenantId);
+
+    /**
+     * Update complaint for authenticated tenant
+     * Only allows updating PENDING complaints
+     * @param tenantId - ID of the tenant
+     * @param complaintId - ID of the complaint to update
+     * @param dto - Updated complaint details
+     * @return Updated complaint details
+     */
+    ComplaintRespDTO updateMyComplaint(Long tenantId, Long complaintId, AddComplaintDTO dto);
+
+    /**
+     * Delete complaint for authenticated tenant
+     * Only allows deleting PENDING complaints
+     * @param tenantId - ID of the tenant
+     * @param complaintId - ID of the complaint to delete
+     */
+    void deleteMyComplaint(Long tenantId, Long complaintId);
+
+    /**
+     * Get specific complaint details with ownership validation
+     * @param tenantId - ID of the tenant
+     * @param complaintId - ID of the complaint
+     * @return Complaint details
+     */
     ComplaintRespDTO getMyComplaintDetails(Long tenantId, Long complaintId);
-    
-    // Filter operations - Tenant can filter their own complaints
-    List<ComplaintRespDTO> getMyComplaintsByStatus(Long tenantId, String status);
-    List<ComplaintRespDTO> getMyComplaintsByPriority(Long tenantId, String priority);
-    
-    // Statistics - Personal stats only
-    ComplaintStatsDTO getMyComplaintStats(Long tenantId);
-    
-    // Utility operations
-    Map<String, Object> checkMyComplaintStatus(Long tenantId, Long complaintId);
-    
-    // Validation helper
-    boolean isMyComplaint(Long tenantId, Long complaintId);
 }
