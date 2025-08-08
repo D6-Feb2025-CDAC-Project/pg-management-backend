@@ -12,4 +12,6 @@ public class TenantResponseDTO {
 	    private int tenureInMonths;
 	    private int totalComplaints;
 	    private int activeComplaints;
+	    private String contactNumber;
+	    private String email;
 }

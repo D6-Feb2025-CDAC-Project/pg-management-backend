@@ -2,6 +2,7 @@ package com.easypg.entities;
 
 import com.easypg.enums.RoomType;
 import com.easypg.enums.TenantType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -58,8 +59,11 @@ public class Room extends BaseEntity {
 
 	    @Column(nullable = false)
 	    private double deposit;
-
-	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	    
+	    private boolean hidden = false;  
+         
+	    @JsonManagedReference
+	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	    private List<Facility> facilities;
 	    
 	    @Enumerated(EnumType.STRING)
