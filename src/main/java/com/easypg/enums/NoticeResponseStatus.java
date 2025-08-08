@@ -6,4 +6,5 @@ public enum NoticeResponseStatus {
 	REJECTED,
 	APPROVED,
 	PAYMENT_PROCESSING,
+	COMPLETED
 }

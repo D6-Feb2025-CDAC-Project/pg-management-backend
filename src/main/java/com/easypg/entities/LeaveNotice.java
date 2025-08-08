@@ -7,7 +7,10 @@ import com.easypg.enums.NoticeResponseStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -31,6 +34,7 @@ public class LeaveNotice extends BaseEntity{
 	private String reasonOfLeave;
 	
 	@Column(name="notice_response_status")
+	@Enumerated(EnumType.STRING)
 	private NoticeResponseStatus noticeResponseStatus;
 	
 	@Column(name="additional_tenant_notes", length=100)
@@ -38,6 +42,10 @@ public class LeaveNotice extends BaseEntity{
 	
 	@Column(name="review_notes", length=200)
 	private String reviewNotes;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tenant_id") // FK column in leave_notice table
+	private Tenant tenant;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "settlement_id") // FK column in leave_notice table

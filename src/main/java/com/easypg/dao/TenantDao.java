@@ -9,7 +9,7 @@ import com.easypg.entities.Tenant;
 import com.easypg.entities.User;
 
 public interface TenantDao extends JpaRepository<Tenant, Long>{
+	
+	Optional<Tenant> findByIdAndIsDeletedFalse(Long tenantId);
 
-	
-	
 }
