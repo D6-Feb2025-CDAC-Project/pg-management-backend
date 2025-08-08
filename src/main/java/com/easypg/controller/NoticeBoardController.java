@@ -30,7 +30,10 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/notices")
-@CrossOrigin(origins = "http://localhost:5173")  // Updated CORS origin
+
+@CrossOrigin(origins = "http://localhost:5173")
+
+
 @AllArgsConstructor
 @Validated
 public class NoticeBoardController {
