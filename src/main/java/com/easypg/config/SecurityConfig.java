@@ -13,9 +13,9 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() // 👈 permit everything
+                .anyRequest().permitAll() //  permit everything
             )
-            .httpBasic().disable(); // 👈 disable basic popup login
+            .httpBasic().disable(); //  disable basic popup login
 
         return http.build();
     }

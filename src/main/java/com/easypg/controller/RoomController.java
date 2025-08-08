@@ -9,15 +9,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rooms")
-@CrossOrigin(origins = "http://localhost:5173")
+
 public class RoomController {
 
     @Autowired
@@ -51,25 +53,19 @@ public class RoomController {
     }
 
    
-    //Add new room
-//    @PostMapping
-//    public ResponseEntity<RoomDTO> addRoom(@RequestBody RoomDTO roomDTO) {
-//        RoomDTO savedRoom = roomService.addRoom(roomDTO);
-//        return new ResponseEntity<>(savedRoom, HttpStatus.CREATED);
-//    }
+
+
     
-    
-    @PostMapping("/rooms")
-    public ResponseEntity<?> addRoom(@RequestBody RoomDTO roomDto) {
-        try {
-            RoomDTO saved = roomService.addRoom(roomDto);
-            return ResponseEntity.ok(saved);
-        } catch (Exception e) {
-            e.printStackTrace(); // VERY IMPORTANT
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to add room: " + e.getMessage());
-        }
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<RoomDTO> addRoomWithImage(
+            @RequestPart("room") RoomDTO roomDTO,
+            @RequestPart("image") MultipartFile imageFile) {
+        RoomDTO savedRoom = roomService.addRoomWithImage(roomDTO, imageFile);
+        return ResponseEntity.ok(savedRoom);
     }
+
+    
+
 
 
     // Update room
