@@ -3,6 +3,7 @@ package com.easypg.entities;
 import com.easypg.enums.RoomType;
 import com.easypg.enums.TenantType;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.JoinColumn;
 
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -11,6 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -26,8 +29,6 @@ import lombok.ToString;
 @ToString(exclude = "facilities")
 public class Room extends BaseEntity {
 	
-	
-
 	    @Column(name = "room_no", nullable = false, unique = true)
 	    private String roomNo;
          
@@ -64,8 +65,15 @@ public class Room extends BaseEntity {
 	    
 	    private boolean hidden = false;  
          
+
+	 // Changed from @OneToMany to @ManyToMany
+	    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+	    @JoinTable(
+	        name = "room_facility", // Junction table name
+	        joinColumns = @JoinColumn(name = "room_id"), // Foreign key for Room
+	        inverseJoinColumns = @JoinColumn(name = "facility_id") // Foreign key for Facility
+	    )
 	    @JsonManagedReference
-	    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	    private List<Facility> facilities;
 	    
 	    @Enumerated(EnumType.STRING)
@@ -94,6 +102,12 @@ public class Room extends BaseEntity {
 	        this.tenantType = tenantType;
 	        this.photoUrl = photoUrl;
 	    }
+	    public List<Facility> getFacilities() {
+	        return facilities;
+	    }
 
+	    public void setFacilities(List<Facility> facilities) {
+	        this.facilities = facilities;
+	    }
 
 }
