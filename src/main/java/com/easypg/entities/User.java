@@ -1,6 +1,5 @@
 package com.easypg.entities;
 
-import java.time.LocalDate;
 
 import com.easypg.enums.UserRole;
 
@@ -32,7 +31,7 @@ public class User {
 	@Column(length= 30,nullable = false)
     private String username;
 
-	@Column(length = 30,nullable = false)
+	@Column(nullable = false)
     private String password;
 
     

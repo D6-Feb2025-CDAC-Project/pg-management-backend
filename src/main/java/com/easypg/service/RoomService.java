@@ -1,6 +1,7 @@
 package com.easypg.service;
 
 import com.easypg.dto.RoomDTO;
+import com.easypg.dto.RoomWithFacilitiesDTO;
 import com.easypg.entities.Room;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface RoomService {
     void updateRoom(Long id, RoomDTO roomDto);
     RoomDTO mapToDto(Room room);
     Room mapToEntity(RoomDTO dto);
-    void hideRoom(Long id);     
+    void hideRoom(Long id);    
+    
+    List<RoomWithFacilitiesDTO> findRoomWithFacilties();
     
 }

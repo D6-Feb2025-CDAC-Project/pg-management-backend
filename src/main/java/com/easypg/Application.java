@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication // includes @Configuration
 public class Application {
@@ -34,5 +36,9 @@ public class Application {
 	    return () -> Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
+	 @Bean
+	    public PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
 
 }
