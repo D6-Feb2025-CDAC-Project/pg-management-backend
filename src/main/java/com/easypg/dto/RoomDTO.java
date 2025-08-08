@@ -19,5 +19,7 @@ public class RoomDTO {
     private double rentAmount;
     private int maxOccupancy;
     private int currentOccupancy;
-    private List<FacilityDTO> facilities;  
+    private List<FacilityDTO> facilities; 
+    private String photoUrl;
+    private boolean isAvailable;
 }
