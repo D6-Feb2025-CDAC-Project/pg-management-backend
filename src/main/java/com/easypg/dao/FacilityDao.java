@@ -1,6 +1,7 @@
 
 package com.easypg.dao;
 
+import com.easypg.dto.FacilityDTO;
 import com.easypg.entities.Facility;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,9 @@ Optional<Facility> findByNameAndCategoryIgnoreCase(String name, String category)
      * Check if facility exists by name and category
      */
     boolean existsByNameAndCategoryIgnoreCase(String name, String category);
+ @Query("SELECT new com.easypg.dto.FacilityDTO(MIN(f.id),f.name,MIN(f.category)) "
+    		+ "FROM Facility f "
+    		+ "WHERE f.isDeleted = false "
+    		+ "GROUP BY f.name")
+	List<FacilityDTO> getAvailableFacilities();
 }

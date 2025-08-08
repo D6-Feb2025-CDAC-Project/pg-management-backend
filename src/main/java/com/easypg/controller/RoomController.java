@@ -3,6 +3,9 @@ package com.easypg.controller;
 import com.easypg.dto.RoomDTO;
 import com.easypg.entities.Room;
 import com.easypg.service.RoomService;
+
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -78,5 +81,12 @@ public class RoomController {
     public ResponseEntity<String> hideRoom(@PathVariable Long id) {
         roomService.hideRoom(id);
         return ResponseEntity.ok("Room hidden successfully");
+    }
+    
+    // find room with facilties
+    @GetMapping("/facilities")
+    @Operation(description = "Get rooms with facilties")
+    public ResponseEntity<?> getRoomWithFacilties(){
+    	return ResponseEntity.ok(roomService.findRoomWithFacilties());
     }
 }

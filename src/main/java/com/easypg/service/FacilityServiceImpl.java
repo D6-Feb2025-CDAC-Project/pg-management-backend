@@ -20,11 +20,7 @@ public class FacilityServiceImpl implements FacilityService{
 
 	@Override
 	public List<FacilityDTO> getAvailableFacilities() {
-		List<FacilityDTO> facilities = facilityDao.findByIsDeletedFalse()
-		.stream()
-		.map(facility -> mapper.map(facility, FacilityDTO.class))
-		.toList();
-		return facilities;
+		return facilityDao.getAvailableFacilities();
 	}
 	
 	

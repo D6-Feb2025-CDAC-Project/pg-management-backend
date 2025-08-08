@@ -1,11 +1,14 @@
 package com.easypg.service;
 import com.easypg.entities.Facility;
 import com.easypg.entities.Room;
+import com.easypg.enums.RoomType;
+import com.easypg.enums.TenantType;
 import com.easypg.custom_exceptions.ResourceNotFoundException;
 import com.easypg.dao.FacilityDao;
 import com.easypg.dao.RoomDao;
 import com.easypg.dto.FacilityDTO;
 import com.easypg.dto.RoomDTO;
+import com.easypg.dto.RoomWithFacilitiesDTO;
 import com.easypg.service.RoomService;
 
 
@@ -56,6 +59,7 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findByHiddenFalse();
     }
 
+    
     @Override
     public Room getRoomById(Long id) {
         return roomRepository.findById(id)
@@ -347,4 +351,32 @@ public class RoomServiceImpl implements RoomService {
         room.setHidden(true);
         roomRepository.save(room);
     }
+
+			@Override
+			public List<RoomWithFacilitiesDTO> findRoomWithFacilties() {
+				 List<Room> rooms = roomRepository.findRoomsWithFacilities();
+
+				 List<RoomWithFacilitiesDTO> roomsWithFacilties =  rooms.stream().map(r -> new RoomWithFacilitiesDTO(
+						 r.getId(),
+				            r.getRoomNo(),
+				            r.getRoomType(),
+				            r.getFloor(),
+				            r.getSize(),
+				            r.getRentAmount(),
+				            r.getCurrentOccupancy(),
+				            r.getMaintenanceCharges(),
+				            r.getElectricityCharges(),
+				            r.getDeposit(),
+				            r.getTenantType(),
+				            r.getPhotoUrl(),
+				            r.getFacilities().stream()
+				                    .filter(f -> !f.isDeleted())
+				                    .map(f -> new FacilityDTO(f.getId(), f.getName(), f.getCategory()))
+				                    .toList()
+				    )).toList();
+				 
+		   return roomsWithFacilties;  
+			}
+	
+
 }

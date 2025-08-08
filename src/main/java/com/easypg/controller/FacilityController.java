@@ -25,14 +25,14 @@ import lombok.AllArgsConstructor;
 public class FacilityController {
 	private final FacilityService facilityService;
 	
+	
 	/*
 	 * Request handling method (REST API end point) 
 	 * - desc - get available facilities
 	 * URL -http://host:port/facility
 	 * Method - GET
 	 * Payload -none
-	 * Resp - in case failure (dup email Id) - ApiResp DTO
-     * in case of empty list - SC204 (NO_CONTENT) 
+	 * Resp - in case of empty list - SC204 (NO_CONTENT) 
 	 * o.w SC 200 + list of facilities -> JSON []
 	 */
 	@GetMapping
@@ -40,12 +40,13 @@ public class FacilityController {
 	public ResponseEntity<?> getAvailableFacilities(){
 		List<FacilityDTO> facilities
 		= facilityService.getAvailableFacilities();
-		if(facilities.isEmpty())
+		if(facilities.isEmpty()) // if no amenities are there
 			 return ResponseEntity
 					 .status(HttpStatus.NO_CONTENT).build();
-		//=> list non empty		
+		
 		return ResponseEntity.ok(facilities);
 	}
+	
 	
 	/*
 	 * Request handling method (REST API end point) 

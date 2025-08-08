@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,7 @@ public class TenantServiceImpl implements TenantService{
 	private final ComplaintDao complaintDao;
 	
 	private final ModelMapper mapper;
+	private final PasswordEncoder passwordEncoder;
 
 	// add new tenant
 	@Override
@@ -51,6 +53,11 @@ public class TenantServiceImpl implements TenantService{
 
 	    User user = mapper.map(dto, User.class);
 	    user.setUserRole(UserRole.ROLE_USER);
+	    
+	 // Password Encryption
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        user.setPassword(encodedPassword);
+        
 	    User savedUser = userDao.save(user); // Generates shared ID
 	    
 
