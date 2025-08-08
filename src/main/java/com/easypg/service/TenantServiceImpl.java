@@ -157,22 +157,7 @@ public class TenantServiceImpl implements TenantService{
 	}
 
 
-	@Override
-	public LoginResponseDTO authenticateUser(String identifier, String password) {
-        Optional<User> optionalUser = userDao.findByUsernameOrEmail(identifier, password);
-
-        if (optionalUser.isEmpty()) {
-            throw new IllegalArgumentException("User not found");
-        }
-
-        User user = optionalUser.get();
-
-        if (!user.getPassword().equals(password)) {
-            throw new IllegalArgumentException("Incorrect password");
-        }
-
-        return new LoginResponseDTO(user.getUsername());
-    }
+	
 
 	
 }

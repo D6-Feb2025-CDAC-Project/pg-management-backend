@@ -98,20 +98,5 @@ public class TenantController {
         return ResponseEntity.ok(response);
     }
 	
-	/*
-	 * Request handling method (REST API end point) URL -
-	 * http://host:port/tenant/login
-	 * Method - POST
-	 * Payload - LoginRequestDTO
-	 * Resp - ApiResponse
-	 */
-	 @PostMapping("/login")
-	    public ResponseEntity<?> login(@RequestBody LoginRequestDTO request) {
-	        try {
-	            LoginResponseDTO response = tenantService.authenticateUser(request.getIdentifier(), request.getPassword());
-	            return ResponseEntity.ok(response);
-	        } catch (IllegalArgumentException e) {
-	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-	        }
-	    }
+	
 }

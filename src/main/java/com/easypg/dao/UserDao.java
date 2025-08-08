@@ -9,6 +9,8 @@ import com.easypg.entities.User;
 public interface UserDao extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
-	Optional<User> findByUsernameOrEmail(String identifier, String password);
+	Optional<User> findByEmail(String identifier);
+	
+	
   
 }

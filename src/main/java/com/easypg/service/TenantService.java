@@ -17,5 +17,4 @@ public interface TenantService {
 	
 	public ApiResponse deleteTenant(Long tenantId);
 
-	public LoginResponseDTO authenticateUser(String identifier, String password);
 }
