@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.easypg.dto.LoginRequestDTO;
 import com.easypg.dto.LoginResponseDTO;
-import com.easypg.service.TenantService;
 import com.easypg.service.UserService;
 
 import lombok.AllArgsConstructor;

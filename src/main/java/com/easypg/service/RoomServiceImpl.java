@@ -35,10 +35,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class RoomServiceImpl implements RoomService {
 
-
-	
-	
-
     @Autowired
     private RoomDao roomRepository;
     
