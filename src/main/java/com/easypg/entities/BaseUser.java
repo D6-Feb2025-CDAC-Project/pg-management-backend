@@ -56,8 +56,13 @@ public class BaseUser implements UserDetails{
 		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(this.userRole.toString());
 		return authorities;
 	}
+	
 	@Override
 	public String getUsername() {
 		return this.email;
+	}
+	
+	public String getName() {
+		return this.username;
 	}
 }

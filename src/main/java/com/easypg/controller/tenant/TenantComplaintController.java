@@ -5,11 +5,14 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.easypg.dto.AddComplaintDTO;
 import com.easypg.dto.ComplaintRespDTO;
+import com.easypg.entities.BaseUser;
 import com.easypg.service.tenant.TenantComplaintService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,9 +35,9 @@ public class TenantComplaintController {
     // Submit a new complaint
     @PostMapping
     @Operation(description = "Submit new complaint")
-    public ResponseEntity<?> submitMyComplaint(@RequestBody @Valid AddComplaintDTO dto) {
+    public ResponseEntity<?> submitMyComplaint(@RequestBody @Valid AddComplaintDTO dto, @AuthenticationPrincipal BaseUser userDetails) {
         try {
-            Long tenantId = 1L; // Replace with tenant ID from JWT in production
+            Long tenantId = userDetails.getId(); // Replace with tenant ID from JWT in production
             ComplaintRespDTO createdComplaint = tenantComplaintService.addNewComplaint(tenantId, dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdComplaint);
         } catch (Exception e) {
@@ -46,9 +49,9 @@ public class TenantComplaintController {
     // Get all complaints of the tenant
     @GetMapping("/my-complaints")
     @Operation(description = "Get all complaints of the authenticated tenant")
-    public ResponseEntity<?> getMyComplaintsAuth() {
+    public ResponseEntity<?> getMyComplaintsAuth(@AuthenticationPrincipal BaseUser userDetails) {
         try {
-            Long tenantId = 1L;
+            Long tenantId = userDetails.getId();
             List<ComplaintRespDTO> complaints = tenantComplaintService.getMyComplaints(tenantId);
             if (complaints.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -65,9 +68,9 @@ public class TenantComplaintController {
     @Operation(description = "Update a tenant complaint")
     public ResponseEntity<?> updateMyComplaint(
             @PathVariable @Min(1) @Max(10000) Long complaintId,
-            @RequestBody @Valid AddComplaintDTO dto) {
+            @RequestBody @Valid AddComplaintDTO dto, @AuthenticationPrincipal BaseUser userDetails) {
         try {
-            Long tenantId = 1L;
+            Long tenantId = userDetails.getId();
             ComplaintRespDTO updatedComplaint = tenantComplaintService.updateMyComplaint(tenantId, complaintId, dto);
             return ResponseEntity.ok(updatedComplaint);
         } catch (Exception e) {
@@ -79,9 +82,9 @@ public class TenantComplaintController {
     // Delete a complaint
     @DeleteMapping("/{complaintId}")
     @Operation(description = "Delete a tenant complaint")
-    public ResponseEntity<?> deleteMyComplaint(@PathVariable @Min(1) @Max(10000) Long complaintId) {
+    public ResponseEntity<?> deleteMyComplaint(@PathVariable @Min(1) @Max(10000) Long complaintId, @AuthenticationPrincipal BaseUser userDetails) {
         try {
-            Long tenantId = 1L;
+            Long tenantId = userDetails.getId();
             tenantComplaintService.deleteMyComplaint(tenantId, complaintId);
             return ResponseEntity.ok(Map.of("message", "Complaint deleted successfully"));
         } catch (Exception e) {
@@ -93,9 +96,9 @@ public class TenantComplaintController {
     // Get details of a specific complaint
     @GetMapping("/{complaintId}")
     @Operation(description = "Get details of a specific complaint")
-    public ResponseEntity<?> getMyComplaintDetails(@PathVariable @Min(1) @Max(10000) Long complaintId) {
+    public ResponseEntity<?> getMyComplaintDetails(@PathVariable @Min(1) @Max(10000) Long complaintId, @AuthenticationPrincipal BaseUser userDetails) {
         try {
-            Long tenantId = 1L;
+            Long tenantId = userDetails.getId();
             ComplaintRespDTO complaint = tenantComplaintService.getMyComplaintDetails(tenantId, complaintId);
             return ResponseEntity.ok(complaint);
         } catch (Exception e) {

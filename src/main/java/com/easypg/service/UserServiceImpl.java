@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 //	        throw new IllegalArgumentException("Incorrect password");
 //	    }
 
-	    return new LoginResponseDTO(user.getUsername());
+	    return new LoginResponseDTO(user.getUsername(), user.getId(), user.getUserRole().toString());
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.easypg.controller.tenant;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.easypg.dto.LeaveNoticeSubmitDTO;
+import com.easypg.entities.BaseUser;
 import com.easypg.service.LeaveNoticeService;
 
 import lombok.AllArgsConstructor;
@@ -19,23 +21,25 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/tenant/leave-notices")
-@CrossOrigin(origins = "http://localhost:5173")
 public class TenantLeaveNoticeController {
 	
 	private final LeaveNoticeService leaveNoticeService;
 	
-	@PostMapping("/{tenantId}")
-	public ResponseEntity<?> submitLeaveNotice(@RequestBody LeaveNoticeSubmitDTO leaveNoticeSubmitDto, @PathVariable Long tenantId) {
+	@PostMapping
+	public ResponseEntity<?> submitLeaveNotice(@RequestBody LeaveNoticeSubmitDTO leaveNoticeSubmitDto, @AuthenticationPrincipal BaseUser userDetails) {
+		Long tenantId = userDetails.getId();// Replace with tenant ID from JWT in production
 		return ResponseEntity.status(HttpStatus.CREATED).body(leaveNoticeService.submitLeaveNoticeForCurrentTenant(leaveNoticeSubmitDto, tenantId));
 	}
 	
-	@GetMapping("/{tenantId}")
-	public ResponseEntity<?> getMyLeaveNotice(@PathVariable Long tenantId) {
+	@GetMapping
+	public ResponseEntity<?> getMyLeaveNotice(@AuthenticationPrincipal BaseUser userDetails) {
+		Long tenantId = userDetails.getId();
 		return ResponseEntity.ok(leaveNoticeService.getLeaveNoticeForCurrentTenant(tenantId));
 	}
 	
-	@DeleteMapping("/{tenantId}")
-	public ResponseEntity<Void> cancelLeaveNotice(@PathVariable Long tenantId){
+	@DeleteMapping
+	public ResponseEntity<Void> cancelLeaveNotice(@AuthenticationPrincipal BaseUser userDetails){
+		Long tenantId = userDetails.getId();
 		leaveNoticeService.cancelLeaveNoticeForCurrentTenant(tenantId);
 		return ResponseEntity.noContent().build();
 	}

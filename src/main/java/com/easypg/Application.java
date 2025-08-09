@@ -19,10 +19,29 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Application {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
-        String mailPassword = dotenv.get("EASYPG_MAIL_PASSWORD");
+//		Dotenv dotenv = Dotenv.load();
+//        String mailPassword = dotenv.get("EASYPG_MAIL_PASSWORD");
 //        System.out.println("Loaded mail password: " + mailPassword);
 		
+        try {
+            Dotenv dotenv = Dotenv.configure()
+                .directory("./")
+                .ignoreIfMalformed()
+                .ignoreIfMissing()
+                .load();
+            
+            // Set all .env variables as system properties
+            dotenv.entries().forEach(entry -> {
+                System.setProperty(entry.getKey(), entry.getValue());
+            });
+            
+            System.out.println("Loaded mail password: " + dotenv.get("EASYPG_MAIL_PASSWORD"));
+            System.out.println("All .env variables loaded as system properties");
+            
+        } catch (Exception e) {
+            System.err.println("Could not load .env file: " + e.getMessage());
+        }
+        
 		SpringApplication.run(Application.class, args);
 	}
 
