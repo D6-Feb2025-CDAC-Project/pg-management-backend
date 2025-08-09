@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 import com.easypg.entities.Tenant;
-import com.easypg.entities.User;
+import com.easypg.entities.BaseUser;
 
 public interface TenantDao extends JpaRepository<Tenant, Long>{
 

@@ -23,7 +23,6 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/admin/complaints")
-@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 @Validated
 @Tag(name = "Admin Complaint Management", description = "APIs for admin to manage all complaints")

@@ -1,4 +1,4 @@
-package com.easypg.controller;
+package com.easypg.controller.tenant;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +36,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Validated
-public class NoticeBoardController {
+public class TenantNoticeBoardController {
 	
 	private final NoticeBoardService noticeBoardService;
 

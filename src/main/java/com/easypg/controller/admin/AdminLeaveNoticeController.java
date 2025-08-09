@@ -26,9 +26,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/admin/leave-notices")
-@CrossOrigin(origins = "*")
 
-public class LeaveNoticeAdminController {
+public class AdminLeaveNoticeController {
     
     private final LeaveNoticeService leaveNoticeService;
 

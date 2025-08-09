@@ -1,6 +1,13 @@
 package com.easypg.entities;
 
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.easypg.enums.UserRole;
 
 import jakarta.persistence.Column;
@@ -10,6 +17,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +30,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@Table(name="user")
+public class BaseUser implements UserDetails{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +50,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name="user_role",nullable = false)
     private UserRole userRole;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(this.userRole.toString());
+		return authorities;
+	}
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
 }
