@@ -63,7 +63,16 @@ public class TenantServiceImpl implements TenantService{
 
 	    Room room = roomDao.findById(dto.getRoomId())
 	        .orElseThrow(() -> new ResourceNotFoundException("Room not found with ID: " + dto.getRoomId()));
-
+	    
+	    room.setCurrentOccupancy(room.getCurrentOccupancy()+1);
+	    
+	  
+	    
+	    if(room.getCurrentOccupancy() >= room.getMaxOccupancy()) {
+	    	room.setAvailable(false);
+	    }
+	    
+	    roomDao.save(room);
 	
 	    Tenant tenant = mapper.map(dto, Tenant.class);
 	    tenant.setUser(savedUser); // Shared PK

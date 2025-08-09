@@ -13,10 +13,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 @SpringBootApplication // includes @Configuration
 public class Application {
 
 	public static void main(String[] args) {
+		Dotenv dotenv = Dotenv.load();
+        String mailPassword = dotenv.get("EASYPG_MAIL_PASSWORD");
+//        System.out.println("Loaded mail password: " + mailPassword);
+		
 		SpringApplication.run(Application.class, args);
 	}
 

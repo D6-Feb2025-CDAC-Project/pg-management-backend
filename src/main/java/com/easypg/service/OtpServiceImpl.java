@@ -1,5 +1,7 @@
 package com.easypg.service;
 
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +19,8 @@ public class OtpServiceImpl implements OtpService{
 
     private final ConcurrentHashMap<String, OtpDetails> otpCache = new ConcurrentHashMap<>();
     private final Random random = new Random();
-
+    private final JavaMailSender mailSender;
+    
     private static final int OTP_EXPIRY_MINUTES = 5;
 
     @Override
@@ -27,15 +30,28 @@ public class OtpServiceImpl implements OtpService{
         OtpDetails otpDetails = new OtpDetails(otp, LocalDateTime.now().plusMinutes(OTP_EXPIRY_MINUTES));
         otpCache.put(email, otpDetails);
 
-        // TODO: send OTP via SMS or email here (call SMS/email service)
+        // Send email
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(email);
+            message.setSubject("Your OTP Code");
+            message.setText("Your OTP code is: " + otp + ". It is valid for " + OTP_EXPIRY_MINUTES + " minutes.");
 
-        System.out.println("Generated OTP for " + email + " : " + otp);  // for debugging
+            mailSender.send(message);
+            System.out.println("OTP sent to " + email + ": " + otp);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
-       if(otp != null) {
-    	   return true;
-       } else {
-    	   return false;
-       }
+//        System.out.println("Generated OTP for " + email + " : " + otp);  // for debugging
+//
+//       if(otp != null) {
+//    	   return true;
+//       } else {
+//    	   return false;
+//       }
     }
 
     @Override
