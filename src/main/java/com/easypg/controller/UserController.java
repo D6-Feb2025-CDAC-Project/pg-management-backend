@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.easypg.dto.LoginRequestDTO;
 import com.easypg.dto.LoginResponseDTO;
+import com.easypg.entities.BaseUser;
 import com.easypg.security.JwtUtil;
 import com.easypg.service.TenantService;
 
@@ -24,9 +25,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/user")
 @AllArgsConstructor
 @Validated
-public class UserController {
-	private final UserService userService;
-	
+public class UserController {	
 	private final AuthenticationManager authManager;
 	
 	private final JwtUtil jwtUtil;
@@ -57,6 +56,10 @@ public class UserController {
 		System.out.println("AFTER AUTH: " + auth);
 		// after authentication, create JWT token and return.
 		String token = jwtUtil.createToken(auth);
-		return ResponseEntity.ok(token);
+		//get username, userid and userrole
+		BaseUser user = (BaseUser)auth.getPrincipal();
+		LoginResponseDTO response = new LoginResponseDTO( user.getName(), user.getId(), user.getUserRole().toString());
+		response.setToken(token);
+		return ResponseEntity.ok(response);
 	}
 }

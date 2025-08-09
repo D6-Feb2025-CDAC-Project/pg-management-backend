@@ -9,4 +9,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LoginResponseDTO {
     private String username;
+    private Long userid;
+    private String userrole;
+    private String token;
+    
+    public LoginResponseDTO(String username, Long userid, String userrole) {
+    	this.username = username;
+    	this.userid = userid;
+    	this.userrole = userrole;
+    }
 }
