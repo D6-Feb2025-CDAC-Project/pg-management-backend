@@ -22,7 +22,7 @@ public class Tenant extends BaseEntity {
 	@OneToOne
 	@MapsId
 	@JoinColumn(name = "id") // This serves as both PK and FK
-	private User user;
+	private BaseUser user;
 
 	@ManyToOne
 	@JoinColumn(name="room_id")

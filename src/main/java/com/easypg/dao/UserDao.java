@@ -4,12 +4,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.easypg.entities.User;
+import com.easypg.entities.BaseUser;
 
-public interface UserDao extends JpaRepository<User, Long> {
+public interface UserDao extends JpaRepository<BaseUser, Long> {
     boolean existsByEmail(String email);
 
-	Optional<User> findByEmail(String identifier);
+	Optional<BaseUser> findByEmail(String identifier);
 	
 	
   

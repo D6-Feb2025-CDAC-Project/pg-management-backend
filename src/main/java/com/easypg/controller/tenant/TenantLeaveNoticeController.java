@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/tenant/leave-notices")
 @CrossOrigin(origins = "http://localhost:5173")
-public class LeaveNoticeTenantController {
+public class TenantLeaveNoticeController {
 	
 	private final LeaveNoticeService leaveNoticeService;
 	

@@ -26,7 +26,7 @@ import com.easypg.dto.UpdateTenantDTO;
 import com.easypg.entities.Complaint;
 import com.easypg.entities.Room;
 import com.easypg.entities.Tenant;
-import com.easypg.entities.User;
+import com.easypg.entities.BaseUser;
 import com.easypg.enums.UserRole;
 
 import lombok.AllArgsConstructor;
@@ -51,14 +51,14 @@ public class TenantServiceImpl implements TenantService{
 	        throw new DuplicateRecordFoundException("User with this email already exists!");
 	    }
 
-	    User user = mapper.map(dto, User.class);
+	    BaseUser user = mapper.map(dto, BaseUser.class);
 	    user.setUserRole(UserRole.ROLE_USER);
 	    
 	 // Password Encryption
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(encodedPassword);
         
-	    User savedUser = userDao.save(user); // Generates shared ID
+	    BaseUser savedUser = userDao.save(user); // Generates shared ID
 	    
 
 	    Room room = roomDao.findById(dto.getRoomId())
@@ -124,7 +124,7 @@ public class TenantServiceImpl implements TenantService{
 	public ApiResponse updateTenant(Long tenantId, UpdateTenantDTO dto) {
         Tenant tenant = tenantDao.findById(tenantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tenant not found"));
-        User user = tenant.getUser();
+        BaseUser user = tenant.getUser();
         if (dto.getEmail() != null) {
         	user.setEmail(dto.getEmail());
         }

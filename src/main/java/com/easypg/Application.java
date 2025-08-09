@@ -42,9 +42,4 @@ public class Application {
 	    return () -> Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
-	 @Bean
-	    public PasswordEncoder passwordEncoder() {
-	        return new BCryptPasswordEncoder();
-	    }
-
 }
