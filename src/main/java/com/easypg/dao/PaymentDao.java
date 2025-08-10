@@ -14,4 +14,9 @@ public interface PaymentDao extends JpaRepository<Payment, Long> {
     Optional<Payment> findByTenantAndPaymentType(Tenant tenant, PaymentType paymentType);
     Optional<Payment> findByTenantAndPaymentTypeAndPaymentStatus(Tenant tenant, PaymentType paymentType, PaymentStatus status);
     Optional<Payment> findByRazorpayPaymentId(String razorpayPaymentId);
+    
+    Optional<Payment> findByRazorpayOrderId(String razorpayOrderId);
+    boolean existsByRazorpayPaymentId(String razorpayPaymentId);
+    List<Payment> findByTenantAndIsDeletedFalse(Tenant tenant);
+
 }
