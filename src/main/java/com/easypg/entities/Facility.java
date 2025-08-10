@@ -25,10 +25,11 @@ public class Facility extends BaseEntity {
     private String category;
 
     
- // Changed from @ManyToOne to @ManyToMany
+//  Changed from @ManyToOne to @ManyToMany
     @ManyToMany(mappedBy = "facilities", fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Room> rooms; 
+    
     
     
 

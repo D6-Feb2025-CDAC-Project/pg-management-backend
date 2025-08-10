@@ -3,6 +3,8 @@ package com.easypg.dto;
 import java.time.LocalDateTime;
 import com.easypg.enums.ComplaintStatus;
 import com.easypg.enums.PriorityLevel;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +23,10 @@ public class ComplaintRespDTO {
     private String issue;
     private ComplaintStatus complaintStatus;
     private PriorityLevel priorityLevel;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime resolvedDate;
     private String actionTaken;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     

@@ -51,7 +51,13 @@ public class TenantComplaintController {
     @Operation(description = "Get all complaints of the authenticated tenant")
     public ResponseEntity<?> getMyComplaintsAuth(@AuthenticationPrincipal BaseUser userDetails) {
         try {
+        	System.out.println("user details : "+userDetails);
+        	System.out.println("before");
+        	System.out.println("HI"+ userDetails.getId());
+        	System.out.println("after");
             Long tenantId = userDetails.getId();
+           
+            System.out.println("tenant id : "+tenantId);
             List<ComplaintRespDTO> complaints = tenantComplaintService.getMyComplaints(tenantId);
             if (complaints.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

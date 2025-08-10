@@ -45,6 +45,7 @@ public class TenantController {
 	@Operation(description = "Get all Tenants")
 	public  ResponseEntity<?> getAllTenants() {
 		List<TenantResponseDTO> tenants = tenantService.getAllTenants();
+		System.out.println("HI TANVI");
 		if(tenants.isEmpty())
 			 return ResponseEntity
 					 .status(HttpStatus.NO_CONTENT).build();

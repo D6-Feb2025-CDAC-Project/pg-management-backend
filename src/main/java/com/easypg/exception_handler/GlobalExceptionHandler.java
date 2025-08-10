@@ -2,6 +2,7 @@ package com.easypg.exception_handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -36,6 +37,11 @@ public class GlobalExceptionHandler {
 		@ExceptionHandler(DuplicateRecordFoundException.class)
 		public ResponseEntity<?> handleDupllicateRecords(DuplicateRecordFoundException e){
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(e.getMessage()));
+		}
+		
+		@ExceptionHandler(AuthenticationException.class)
+		public ResponseEntity<?> handleBadCredentials(AuthenticationException e){
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse(e.getMessage()));
 		}
 
 		

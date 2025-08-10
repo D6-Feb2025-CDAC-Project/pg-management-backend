@@ -48,20 +48,6 @@ public class FacilityController {
 	}
 	
 	
-	/*
-	 * Request handling method (REST API end point) 
-	 * - desc - add new facility
-	 * URL -http://host:port/facility
-	 * Method - POST
-	 * Payload - JSON representation of facility
-	 * Resp - in case failure (dup facility name) - ApiResp DTO
-	 *  - containing err mesg + SC 400(BAD_REQUEST)
-	 *  success - SC 201 + ApiResp - success mesg
-	 */
-//	@PostMapping
-//	@Operation(description = "Add new facility")
-//	public ResponseEntity<?> addNewFacility(@RequestBody FacilityDTO dto){
-//		
-//	}
+	
 	
 }

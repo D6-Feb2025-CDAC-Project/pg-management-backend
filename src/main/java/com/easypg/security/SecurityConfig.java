@@ -2,6 +2,8 @@ package com.easypg.security;
 
 import java.util.Arrays;
 
+import com.easypg.service.CustomUserDetailsService;
+import com.easypg.service.UserServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +14,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,10 +26,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private UserServiceImpl userDetailsService;
+	
 	@Autowired
 	private JwtFilter jwtFilter;
+
+    
 
 	@Bean
 	PasswordEncoder passwordEncoder() {
@@ -49,6 +55,13 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(requests -> requests
 						.requestMatchers("/user/**").permitAll()
+						 .requestMatchers(
+					                "/swagger-ui/**",
+					                "/v3/api-docs/**",
+					                "/swagger-resources/**",
+					                "/webjars/**"
+					            ).permitAll()
+						 .requestMatchers("/uploads/**").permitAll()
 //						.requestMatchers("/otp/**").permitAll()
 //						.requestMatchers("/tenant").permitAll()
 //						.requestMatchers("/rooms/**").permitAll()

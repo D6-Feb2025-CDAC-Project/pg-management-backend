@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 @Service
 @Transactional
 @AllArgsConstructor
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService , UserDetailsService {
 	private final UserDao userDao;
 	//private final PasswordEncoder passwordEncoder;
 	
@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	}
 
+	 // New method: load user by ID (used in JwtUtil)
+    public BaseUser loadUserById(Long id) {
+        return userDao.findById(id)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+    }
 }
