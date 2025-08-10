@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.easypg.dto.AddTenantDTO;
 import com.easypg.dto.LoginRequestDTO;
 import com.easypg.dto.LoginResponseDTO;
 import com.easypg.entities.BaseUser;
@@ -19,6 +20,7 @@ import com.easypg.service.TenantService;
 
 import com.easypg.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -27,25 +29,26 @@ import lombok.AllArgsConstructor;
 @Validated
 public class UserController {	
 	private final AuthenticationManager authManager;
+	private final TenantService tenantService;
 	
 	private final JwtUtil jwtUtil;
 	
 	/*
-	 * Request handling method (REST API end point) URL -
-	 * http://host:port/tenant/login
-	 * Method - POST
-	 * Payload - LoginRequestDTO
-	 * Resp - ApiResponse
+	 * Request handling method (REST API end point) 
+	 * - desc - Add new tenant
+	 * URL -http://host:port/user
+	 * Method - POST 
+	 * Payload -JSON representation of tenant
+	 * Resp - in case failure (dup email Id) - ApiResp DTO
+	 *  - containing err mesg + SC 409(CONFLICT)
+	 *  success - SC 201 + ApiResp - success mesg
 	 */
-//	 @PostMapping("/login")
-//	    public ResponseEntity<?> login(@RequestBody LoginRequestDTO request) {
-//	        try {
-//	            LoginResponseDTO response = userService.authenticateUser(request.getIdentifier(), request.getPassword());
-//	            return ResponseEntity.ok(response);
-//	        } catch (IllegalArgumentException e) {
-//	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-//	        }
-//	    }
+	@PostMapping("/register")
+	@Operation(description = "Add new Tenant")
+	public ResponseEntity<?> addNewTenant(@RequestBody AddTenantDTO dto){
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(tenantService.addNewTenant(dto));
+	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticate(@RequestBody LoginRequestDTO cr) {

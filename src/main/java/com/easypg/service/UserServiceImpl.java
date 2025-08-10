@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.easypg.dao.UserDao;
@@ -37,13 +36,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 //	        throw new IllegalArgumentException("Incorrect password");
 //	    }
 
-	    return new LoginResponseDTO(user.getUsername(), user.getId(), user.getUserRole().toString());
+    return new LoginResponseDTO(user.getUsername(), user.getId(), user.getUserRole().toString());
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		BaseUser user = userDao.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
 		return user;
+
 	}
 
 }

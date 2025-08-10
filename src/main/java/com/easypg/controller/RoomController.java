@@ -5,6 +5,7 @@ import com.easypg.entities.Room;
 import com.easypg.service.RoomService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rooms")
-
+@AllArgsConstructor
 public class RoomController {
 
-    @Autowired
     private RoomService roomService;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     //  Get all visible rooms
     @GetMapping
