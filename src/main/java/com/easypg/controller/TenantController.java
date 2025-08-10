@@ -32,22 +32,6 @@ public class TenantController {
 	
 	private final TenantService tenantService;
 	
-	/*
-	 * Request handling method (REST API end point) 
-	 * - desc - Add new tenant
-	 * URL -http://host:port/tenant
-	 * Method - POST 
-	 * Payload -JSON representation of tenant
-	 * Resp - in case failure (dup email Id) - ApiResp DTO
-	 *  - containing err mesg + SC 409(CONFLICT)
-	 *  success - SC 201 + ApiResp - success mesg
-	 */
-	@PostMapping
-	@Operation(description = "Add new Tenant")
-	public ResponseEntity<?> addNewTenant(@RequestBody AddTenantDTO dto){
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(tenantService.addNewTenant(dto));
-	}
 
 	/*
 	 * Request handling method (REST API end point) URL -
