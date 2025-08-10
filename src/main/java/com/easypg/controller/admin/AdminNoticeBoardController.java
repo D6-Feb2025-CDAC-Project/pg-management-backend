@@ -29,7 +29,7 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/tenant/notices")
+@RequestMapping("/admin/notices")
 
 @AllArgsConstructor
 @Validated
@@ -53,6 +53,45 @@ public class AdminNoticeBoardController {
 		if (notices.isEmpty())
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		return ResponseEntity.ok(notices);
+	}
+	
+	/*
+	 * Request handling method (REST API end point) 
+	 * - desc - Add new notice 
+	 * URL - http://host:port/notices 
+	 * Method - POST 
+	 * Payload - JSON representation of notice 
+	 * Resp - success - SC 201 + ApiResp - success mesg
+	 */
+	@PostMapping
+	@Operation(description = "Add New Notice")
+	public ResponseEntity<?> addNewNotice(@RequestBody @Valid AddNoticeBoardDTO dto) {
+		System.out.println("in add notice " + dto);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(noticeBoardService.addNewNotice(dto));
+	}
+
+	/*
+	 * REST API end point - 
+	 * desc - update notice details by id
+	 * URL - http://host:port/notices/{noticeId} 
+	 * Method - PUT 
+	 * Payload - JSON representation of Notice
+	 * Resp - ApiResp
+	 */
+	@PutMapping("/{noticeId}")
+	@Operation(description = "Update notice details (Partial or Complete)")
+	public ResponseEntity<?> updateNoticeDetails(@PathVariable Long noticeId,
+			@RequestBody @Valid AddNoticeBoardDTO dto) {
+		System.out.println("in update notice " + noticeId + " " + dto);
+		return ResponseEntity.ok(noticeBoardService.updateNoticeDetails(noticeId, dto));
+	}
+	
+	@DeleteMapping("/{noticeId}")
+	@Operation(description = "Soft delete notice")
+	public ResponseEntity<?> deleteNotice(@PathVariable @Min(1) Long noticeId) {
+		System.out.println("in delete notice " + noticeId);
+		return ResponseEntity.ok(noticeBoardService.deleteNotice(noticeId));
 	}
 
 	

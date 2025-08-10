@@ -29,6 +29,7 @@ public class RoomController {
     @GetMapping
     public ResponseEntity<?> getAllVisibleRooms() {
         List<Room> rooms = roomService.getAllVisibleRooms();
+        
 
         if (rooms.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -48,8 +49,6 @@ public class RoomController {
         RoomDTO dto = roomService.mapToDto(room);
         return ResponseEntity.ok(dto);
     }
-
-   
 
 
     

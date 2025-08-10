@@ -94,11 +94,74 @@ public class RoomServiceImpl implements RoomService {
         return modelMapper.map(savedRoom, RoomDTO.class);
     }
 
+//    public RoomDTO addRoomWithImage(RoomDTO roomDTO, MultipartFile imageFile) {
+//        try {
+//            System.out.println("Adding room with image. Facilities: " + roomDTO.getFacilities());
+//            
+//            // 1. Create Room entity
+//            Room room = new Room();
+//            room.setRoomNo(roomDTO.getRoomNo());
+//            room.setRoomType(roomDTO.getRoomType());
+//            room.setTenantType(roomDTO.getTenantType());
+//            room.setFloor(roomDTO.getFloor());
+//            room.setRentAmount(roomDTO.getRentAmount());
+//            room.setMaxOccupancy(roomDTO.getMaxOccupancy());
+//            room.setCurrentOccupancy(roomDTO.getCurrentOccupancy());
+//            room.setAvailable(true);
+//            
+//            // 2. Handle image upload
+//            if (imageFile != null && !imageFile.isEmpty()) {
+//                String imageUrl = uploadImage(imageFile);
+//                room.setPhotoUrl(imageUrl);
+//                System.out.println("Image uploaded successfully: " + imageUrl);
+//            }
+//            
+//            // 3. Handle facilities for Many-to-Many
+//            if (roomDTO.getFacilities() != null && !roomDTO.getFacilities().isEmpty()) {
+//                List<Facility> facilities = new ArrayList<>();
+//                
+//                for (FacilityDTO facilityDTO : roomDTO.getFacilities()) {
+//                    System.out.println("Processing facility: " + facilityDTO.getName());
+//                    
+//                    // Check if facility already exists in database
+//                    Facility facility = facilityRepository.findByNameAndCategory(
+//                        facilityDTO.getName(), 
+//                        facilityDTO.getCategory()
+//                    );
+//                    
+//                    if (facility == null) {
+//                        // Create new facility
+//                        facility = new Facility();
+//                        facility.setName(facilityDTO.getName());
+//                        facility.setCategory(facilityDTO.getCategory());
+//                        facility = facilityRepository.save(facility);
+//                        System.out.println("Created new facility with ID: " + facility.getId());
+//                    } else {
+//                        System.out.println("Using existing facility with ID: " + facility.getId());
+//                    }
+//                    
+//                    facilities.add(facility);
+//                }
+//                
+//                room.setFacilities(facilities);
+//            }
+//            
+//            // 4. Save the room with facilities
+//            Room savedRoom = roomRepository.save(room);
+//            System.out.println("Room saved with ID: " + savedRoom.getId());
+//            
+//            return mapToDto(savedRoom);
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("Failed to add room: " + e.getMessage(), e);
+//        }
+//    }
+//    
+    
     public RoomDTO addRoomWithImage(RoomDTO roomDTO, MultipartFile imageFile) {
         try {
-            System.out.println("Adding room with image. Facilities: " + roomDTO.getFacilities());
-            
-            // 1. Create Room entity
+            // Create Room entity
             Room room = new Room();
             room.setRoomNo(roomDTO.getRoomNo());
             room.setRoomType(roomDTO.getRoomType());
@@ -108,55 +171,50 @@ public class RoomServiceImpl implements RoomService {
             room.setMaxOccupancy(roomDTO.getMaxOccupancy());
             room.setCurrentOccupancy(roomDTO.getCurrentOccupancy());
             room.setAvailable(true);
-            
-            // 2. Handle image upload
+
+            // Handle image upload
             if (imageFile != null && !imageFile.isEmpty()) {
                 String imageUrl = uploadImage(imageFile);
                 room.setPhotoUrl(imageUrl);
-                System.out.println("Image uploaded successfully: " + imageUrl);
             }
-            
-            // 3. Handle facilities for Many-to-Many
+
+            // Save room first to generate ID
+            Room savedRoom = roomRepository.save(room);
+
+            // Process facilities: find existing or create new and set them in room's facility list
             if (roomDTO.getFacilities() != null && !roomDTO.getFacilities().isEmpty()) {
                 List<Facility> facilities = new ArrayList<>();
-                
                 for (FacilityDTO facilityDTO : roomDTO.getFacilities()) {
-                    System.out.println("Processing facility: " + facilityDTO.getName());
-                    
-                    // Check if facility already exists in database
                     Facility facility = facilityRepository.findByNameAndCategory(
-                        facilityDTO.getName(), 
-                        facilityDTO.getCategory()
+                        facilityDTO.getName(), facilityDTO.getCategory()
                     );
-                    
+
                     if (facility == null) {
-                        // Create new facility
                         facility = new Facility();
                         facility.setName(facilityDTO.getName());
                         facility.setCategory(facilityDTO.getCategory());
                         facility = facilityRepository.save(facility);
-                        System.out.println("Created new facility with ID: " + facility.getId());
-                    } else {
-                        System.out.println("Using existing facility with ID: " + facility.getId());
                     }
-                    
+
                     facilities.add(facility);
                 }
-                
-                room.setFacilities(facilities);
+
+                // Set facilities to room (many-to-many)
+                savedRoom.setFacilities(facilities);
+
+                // Save room again to update join table
+                savedRoom = roomRepository.save(savedRoom);
             }
-            
-            // 4. Save the room with facilities
-            Room savedRoom = roomRepository.save(room);
-            System.out.println("Room saved with ID: " + savedRoom.getId());
-            
+
             return mapToDto(savedRoom);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to add room: " + e.getMessage(), e);
         }
     }
+
+
     
     private String uploadImage(MultipartFile file) throws IOException {
         // Validate file
