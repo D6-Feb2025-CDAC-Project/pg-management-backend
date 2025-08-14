@@ -135,7 +135,9 @@ public class JwtUtil {
         List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
 
         // Load full user details by ID (custom method)
+//        BaseUser userDetails = userDetailsService.loadUserById(Long.parseLong(userId));
         BaseUser userDetails = userDetailsService.loadUserById(Long.parseLong(userId));
+        
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
     }

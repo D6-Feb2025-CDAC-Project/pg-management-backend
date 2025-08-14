@@ -52,6 +52,7 @@ public class UserController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticate(@RequestBody LoginRequestDTO cr) {
+		System.out.println("IN login ");
 		// authenticate user with authentication manager		
 		Authentication auth = new UsernamePasswordAuthenticationToken(cr.getIdentifier(), cr.getPassword());
 		System.out.println("BEFORE AUTH: " + auth);
