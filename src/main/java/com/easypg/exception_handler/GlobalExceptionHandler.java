@@ -2,7 +2,8 @@ package com.easypg.exception_handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -39,11 +40,11 @@ public class GlobalExceptionHandler {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(e.getMessage()));
 		}
 		
-		@ExceptionHandler(AuthenticationException.class)
-		public ResponseEntity<?> handleBadCredentials(AuthenticationException e){
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse(e.getMessage()));
-		}
-
+		
+		@ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
+	    public ResponseEntity<?> handleAuthenticationExceptions(Exception ex) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	    }
 		
 		// equivalent to catch-all
 		@ExceptionHandler(Exception.class)
