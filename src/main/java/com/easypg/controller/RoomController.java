@@ -67,6 +67,7 @@ public class RoomController {
     // Update room
     @PutMapping("/{id}")
     public ResponseEntity<String> updateRoom(@PathVariable Long id, @RequestBody RoomDTO roomDto) {
+    	System.out.println("Hi");
         roomService.updateRoom(id, roomDto);
         return ResponseEntity.ok("Room updated successfully");
     }

@@ -29,7 +29,7 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/notices")
+@RequestMapping("/tenant/notices")
 
 @CrossOrigin(origins = "http://localhost:5173")
 
